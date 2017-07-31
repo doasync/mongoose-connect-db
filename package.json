@@ -1,0 +1,23 @@
+{
+  "name": "mongoose-connect-db",
+  "version": "1.0.0",
+  "description": "Connect mongoose properly",
+  "author": {
+    "name": "doasync",
+    "email": "doasync@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/doasync/mongoose-connect-db.git"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "engines": {
+    "node": ">= 8.2.1",
+    "npm": ">= 5.3.0"
+  },
+  "dependencies": {
+    "mongoose": "^4.11.3"
+  },
+  "license": "MIT"
+}
