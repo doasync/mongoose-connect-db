@@ -1,12 +1,8 @@
-
-const mongoose = require('mongoose');
-
-// Use native promises (mongoose)
-mongoose.Promise = global.Promise;
+/* eslint-disable no-param-reassign */
 
 // Connection options
 const defaultOptions = {
-  // Use native promises (MongoDB driver)
+  // Use native promises
   promiseLibrary: global.Promise,
   useMongoClient: true,
   // Write concern (Journal Acknowledged)
@@ -14,30 +10,24 @@ const defaultOptions = {
   j: true
 };
 
-function connect (params = {}, options = {}) {
+function connect (mongoose, dbURI, options = {}) {
   // Merge options with defaults
   const driverOptions = Object.assign(defaultOptions, options);
 
-  // Uri string param
-  if (typeof params === 'string') {
-    // eslint-disable-next-line no-param-reassign
-    params = {dbURI: params};
-  }
-
-  // Default vars
-  const {dbURI} = params;
+  // Use Promise from options (mongoose)
+  mongoose.Promise = driverOptions.promiseLibrary;
 
   // Connect
   mongoose.connect(dbURI, driverOptions);
 
-  return mongoose;
-}
-
-// If the Node process ends, close the Mongoose connection
-process.on('SIGINT', () => {
-  mongoose.connection.close(() => {
-    process.exit(0);
+  // If the Node process ends, close the Mongoose connection
+  process.on('SIGINT', () => {
+    mongoose.connection.close(() => {
+      process.exit(0);
+    });
   });
-});
+
+  return mongoose.connection;
+}
 
 module.exports = connect;
